@@ -2,9 +2,8 @@ package com.employee;
 
 import java.util.Objects;
 
-// Generalization
 public class Employee {
-	int id;
+	String id;
 	String name;
 	String location;
 
@@ -27,6 +26,6 @@ public class Employee {
 		if (getClass() != obj.getClass())
 			return false;
 		Employee other = (Employee) obj;
-		return id == other.id;
+		return id.equals(other.id);
 	}
 }

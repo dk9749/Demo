@@ -1,30 +1,35 @@
 package com.employee;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-// Data layer / Model layer
 public class EmployeeRepository {
-	List<Employee> list = new ArrayList<>();
+	private static EmployeeRepository employeeRepositoryInstance;
+	Set<Employee> list = new HashSet<Employee>();
+
+	public static EmployeeRepository getInstance() {
+		if (employeeRepositoryInstance == null) {
+			employeeRepositoryInstance = new EmployeeRepository();
+		}
+		return employeeRepositoryInstance;
+	}
 
 	public void add(Employee employee) {
 		list.add(employee);
 	}
 
-	public void remove(Employee employee) {
-		list.remove(employee);
+	public Set<Employee> getEmployeeList() {
+		return list;
 	}
 
-	public void printEmployee() {
-		for (Employee z : list) {
-			System.out.println(z);
-		}
+	public void delete(Employee searchEmp) {
+		list.remove(searchEmp);
 	}
 
 	public Employee getEmployee(String employee) {
-		for (Employee i : list) {
-			if (i.name.equalsIgnoreCase(employee)) {
-				return i;
+		for (Employee e : list) {
+			if (e.name.equalsIgnoreCase(employee)) {
+				return e;
 			}
 		}
 		return null;

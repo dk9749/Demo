@@ -10,8 +10,8 @@ public class Application {
 
 	private static void controller() {
 		System.out.println("Welcome to Employee Program");
-		UserInterface userInterface = new UserInterface();
-		EmployeeRepository employeeRepository = new EmployeeRepository();
+		UserInterface userInterface = UserInterface.getInstance();
+//		EmployeeRepository employeeRepository = EmployeeRepository.getInstance();
 		boolean flag = true;
 		while (flag) {
 			try {
@@ -30,7 +30,7 @@ public class Application {
 					userInterface.update(emp1);
 					break;
 				case 4:
-					userInterface.display();
+					userInterface.printAll();
 					break;
 				case 5:
 					System.out.println("Exit !!");

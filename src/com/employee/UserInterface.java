@@ -1,40 +1,54 @@
 package com.employee;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 public class UserInterface {
-	List<Employee> list = new ArrayList<>();
+	private static UserInterface userInterfaceInstance;
+
+	public static UserInterface getInstance() {
+		if (userInterfaceInstance == null) {
+			userInterfaceInstance = new UserInterface();
+		}
+		return userInterfaceInstance;
+	}
 
 	public void add() {
 		Employee employee = new Employee();
-		employee.id = UtilScanner.getInt("Enter Employee id: ");
+		employee.id = UtilScanner.getString("Enter Employee Id: ");
 		employee.name = UtilScanner.getString("Enter Employee Name: ");
-		employee.location = UtilScanner.getString("Enter Employee location: ");
-		list.add(employee);
+		employee.location = UtilScanner.getString("Enter Employee Location: ");
+		EmployeeRepository employeeRepository = EmployeeRepository.getInstance();
+		employeeRepository.add(employee);
+	}
+
+	public void printAll() {
+		EmployeeRepository employeeRepository = EmployeeRepository.getInstance();
+		Set<Employee> list = employeeRepository.getEmployeeList();
+		for (Employee e : list) {
+			System.out.println(e);
+		}
 	}
 
 	public void delete(String employee) {
-		for (Employee e : list) {
-			if (e.name.equalsIgnoreCase(employee)) {
-				list.remove(e);
-			}
-		}
+		EmployeeRepository employeeRepository = EmployeeRepository.getInstance();
+		Employee searchEmp = employeeRepository.getEmployee(employee);
+		employeeRepository.delete(searchEmp);
 	}
 
-	public void update(String employee) {
-		for (Employee e : list) {
-			if (e.name.equalsIgnoreCase(employee)) {
-				e.id = UtilScanner.getInt("Enter new id:");
-				e.name = UtilScanner.getString("Enter new Name:");
-				e.location = UtilScanner.getString("Enter new Location");
-			}
-		}
-	}
-
-	public void display() {
-		for (Employee e : list) {
-			System.out.println(e);
+	public void update(String emp1) {
+		EmployeeRepository employeeRepository = EmployeeRepository.getInstance();
+		Employee searchEmployee = employeeRepository.getEmployee(emp1);
+		int choice = UtilScanner.getInt("\nEnter 1 to update Id\n2 to update Name\n3 to update location");
+		switch (choice) {
+		case 1:
+			searchEmployee.id = UtilScanner.getString("Enter New Id: ");
+			break;
+		case 2:
+			searchEmployee.name = UtilScanner.getString("Enter New Name: ");
+			break;
+		case 3:
+			searchEmployee.location = UtilScanner.getString("Enter New Location: ");
+			break;
 		}
 	}
 }
